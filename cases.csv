@@ -1,0 +1,33 @@
+case_id,symptom,topology_note,show_output,expected_fault,osi_layer,concept,severity
+1,PC cannot ping gateway,PC in VLAN 20 but default gateway missing on SVI,show ip interface brief\nVlan20 is down\nshow run | section interface Vlan20,Missing SVI or VLAN interface down,L3,VLAN,High
+2,PC gets IP but no internet,PC has valid DHCP lease but cannot reach DNS,show ip dhcp binding\nshow ip route\nshow run | section ip dhcp,Missing default route or DHCP scope issue,L3,DHCP,High
+3,Server unreachable from users,Users are on different VLANs and cannot connect,show interfaces trunk\nshow ip route,Inter-VLAN routing misconfigured,L3,Routing,High
+4,SSH fails to a switch,Host cannot establish SSH session,show ip ssh\nshow run | section line vty,Missing SSH config or wrong access list,L5,ACL,Medium
+5,Guest Wi-Fi cannot reach internal server,Guest VLAN has access to internet only,show access-lists\nshow vlan brief,Guest isolation or ACL policy misapplied,L4,ACL,High
+6,PC has no connectivity after switch reboot,Port status is administratively down,show interface status\nshow running-config interface fa0/1,Interface shutdown or no switchport mode,L2,VLAN,High
+7,Users cannot resolve names,Hosts receive IP but DNS fails,show running-config | section ip dns\nshow ip dns view,Missing DNS server or wrong DNS mapping,L7,DNS,Medium
+8,Router cannot reach ISP,Static route missing for external network,show ip route\nshow ip bgp,Missing route or wrong next-hop,L3,Routing,High
+9,Web server unreachable via NAT,Users outside network cannot reach server,show ip nat translations\nshow ip nat statistics,Missing NAT overload or wrong inside/outside interface,L3,NAT,High
+10,Wireless clients cannot join,SSID broadcast exists but clients fail to connect,show wireless client summary\nshow dot11 association,Wrong SSID or wireless security mismatch,L2,Wireless,High
+11,PC cannot access server in same subnet,PC has IP but cannot reach peer,arp -a\nshow mac address-table,ARP issue or wrong subnet mask,L2,IP addressing,High
+12,Two hosts on same VLAN conflict,Duplicate IP causes intermittent failures,show ip dhcp snooping binding\nshow arp,Duplicate IP address or misconfigured DHCP,L2,DHCP,Medium
+13,Access denied to finance server,ACL blocks finance VLAN traffic,show access-lists 101\nshow run | section access-list,Wrong ACL rule order,L4,ACL,High
+14,Default gateway unreachable,Gateway IP configured incorrectly,show ip interface brief\nshow running-config interface vlan 10,Incorrect gateway on SVI,L3,IP addressing,High
+15,Router learns routes but no data flows,Routing table has entries but traffic drops,show ip route\nshow ip cef,Routing protocol or next-hop black hole,L3,Routing,High
+16,Switch port stays in err-disabled,Link flaps repeatedly,show interfaces status err-disabled\nshow logging,Port security or port-duplex mismatch,L2,Port security,High
+17,Phone cannot register to voice VLAN,Voice traffic blocked,show vlan\nshow interfaces switchport,Voice VLAN not assigned or trunk missing,L2,VLAN,Medium
+18,Remote site unreachable,Branch office cannot contact HQ,show ip eigrp neighbors\nshow ip route,Routing adjacency down,L3,Routing,High
+19,Client cannot access internet after new ACL,ACL denies HTTP to outside,show access-lists\nshow ip interface,ACL rule ordering issue,L4,ACL,High
+20,LAN host fails DHCP after moving rooms,Client receives no IP,show ip dhcp excluded-address\nshow running-config | section dhcp,Wrong DHCP pool or excluded ranges,L3,DHCP,Medium
+21,Switch port does not carry VLAN traffic,Trunk not established,show interfaces trunk\nshow spanning-tree,Missing trunk encapsulation or native VLAN mismatch,L2,VLAN,High
+22,Users cannot reach DNS server,Client resolves internal names but not external domains,show ip dns server\nshow ip route,Missing DNS reachability or firewall rule,L7,DNS,High
+23,Wireless guest clients get IP but no internet,Guest internet access blocked,show run | section ip access-group\nshow ip route,ACL or NAT issue on guest VLAN,L4,NAT,High
+24,Router cannot ping neighboring router,Neighbors exist but no adjacency,show ip ospf neighbor\nshow run | section ospf,Incorrect OSPF adjacency or area mismatch,L3,Routing,High
+25,NAT translation fails for outbound traffic,Inside hosts cannot access internet,show ip nat translations\nshow ip access-lists,Inside/outside interface mismatch,L3,NAT,High
+26,User cannot reach server by hostname,Client resolves IP but fails to connect,show ip route\nshow hosts,Name resolution mismatch or wrong DNS server,L7,DNS,Medium
+27,Students on VLAN 30 cannot reach printer,Printer on different VLAN,show ip route\nshow run | section interface,Missing inter-VLAN route,L3,Routing,High
+28,One user cannot log in to remote access,VPN tunnel disconnects,show crypto isakmp sa\nshow crypto ipsec sa,Wrong pre-shared key or tunnel mismatch,L3,VPN,High
+29,PC cannot connect to server due to wrong subnet,Client has static IP,show ip interface brief\nshow ip route,Wrong subnet mask or gateway value,L3,IP addressing,High
+30,Unknown hosts are denied on switch port,Port security blocks connection,show port-security interface fa0/2\nshow mac address-table,Port security violation,L2,Port security,High
+31,Router cannot reach ISP after route change,Traffic dropped to default route,show ip route static\nshow running-config,Wrong next-hop or route metric,L3,Routing,High
+32,Network outage after VLAN move,Most traffic fails on access switches,show vlan brief\nshow interfaces trunk,Missing VLAN creation or switchport assignment,L2,VLAN,High
