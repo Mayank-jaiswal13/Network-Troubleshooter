@@ -1,6 +1,6 @@
-# NetSage AI
+# Network Troubleshooter
 
-An explainable troubleshooting dashboard for Cisco-style Packet Tracer labs. NetSage turns network symptoms and command output into a structured diagnosis, suggested verification command, and practical next steps.
+NetSage AI is an explainable troubleshooting dashboard for Cisco-style Packet Tracer labs. It turns network symptoms and command output into a structured diagnosis, suggested verification command, and practical next steps.
 
 ## Features
 
@@ -10,11 +10,11 @@ An explainable troubleshooting dashboard for Cisco-style Packet Tracer labs. Net
 - A responsive Flask dashboard with severity and issue summaries
 - Human review guidance for validating every suggested fix
 
-> NetSage is an educational decision-support demo. Its diagnosis logic is rule-based and should not be treated as an authoritative production network configuration.
+> This is an educational decision-support demo. Its diagnosis logic is rule-based and should not be treated as an authoritative production network configuration.
 
 ## Quick start
 
-Requires Python 3.10 or newer.
+Requires Python 3.12.
 
 ```bash
 python -m venv .venv
@@ -51,12 +51,12 @@ Open [http://localhost:5000](http://localhost:5000).
 ## Project layout
 
 ```text
-NetSageAI/
-├── app.py                 # Flask routes and diagnosis flow
-├── dashboard.py           # Summary statistics from the case catalog
-├── rule_checker.py        # Deterministic configuration checks
-├── cases.csv              # Sample troubleshooting cases
-├── requirements.txt       # Runtime dependencies
+Network-Troubleshooter/
+├── app.py                    # Flask routes and diagnosis flow
+├── dashboard.py              # Summary statistics from the case catalog
+├── rule_checker.py           # Deterministic configuration checks
+├── cases.csv                 # Sample troubleshooting cases
+├── requirements.txt          # Runtime dependencies
 ├── requirements-research.txt # Optional research and document packages
 ├── static/
 │   └── style.css
@@ -66,7 +66,7 @@ NetSageAI/
 
 ## Deployment
 
-The Flask application is compatible with Vercel's Python runtime. Import this repository into Vercel and use the repository root as the project root. Vercel will install the packages in `requirements.txt` and detect `app.py` as the Flask entry point.
+The Flask application is compatible with Vercel's Python runtime. Use the repository root as the project root. Vercel installs the packages in `requirements.txt` and detects `app.py` as the Flask entry point.
 
 ## Data and privacy
 
