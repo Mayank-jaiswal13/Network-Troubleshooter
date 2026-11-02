@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NetSage AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <nav class="topbar">
+      <div class="brand">NetSage AI</div>
+      <div class="nav-text">AI troubleshooting helper</div>
+    </nav>
+
+    <main class="container">
+      <section class="panel hero-panel">
+        <div>
+          <p class="eyebrow">Cisco lab intelligence</p>
+          <h1>Network Troubleshooting Dashboard</h1>
+        </div>
+        <div class="stats">
+          <div class="stat-box">
+            <span>Total Cases</span>
+            <strong>{{ summary.total_cases }}</strong>
+          </div>
+          <div class="stat-box">
+            <span>AI Agreement</span>
+            <strong>{{ summary.ai_agreement_rate }}%</strong>
+          </div>
+          <div class="stat-box">
+            <span>High Severity</span>
+            <strong>{{ summary.severity_counts.get('High', 0) }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel two-col">
+        <div class="input-card">
+          <h2>Diagnose a Lab Issue</h2>
+          <form method="POST" action="{{ url_for('diagnose') }}">
+            <div class="checklist-box">
+              <label class="section-label">Select a symptom</label>
+              <div class="checkbox-grid">
+                <label><input type="checkbox" name="symptoms" value="PC gets IP but cannot reach server in VLAN 30" /> PC gets IP but cannot reach server in VLAN 30</label>
+                <label><input type="checkbox" name="symptoms" value="Guest Wi-Fi can reach internet but not internal servers" /> Guest Wi-Fi can reach internet but not internal servers</label>
+                <label><input type="checkbox" name="symptoms" value="Users cannot resolve domain names even though DHCP works" /> Users cannot resolve domain names even though DHCP works</label>
+                <label><input type="checkbox" name="symptoms" value="Router cannot reach the ISP after a route change" /> Router cannot reach the ISP after a route change</label>
+                <label><input type="checkbox" name="symptoms" value="Default gateway is unreachable from a client PC" /> Default gateway is unreachable from a client PC</label>
+                <label><input type="checkbox" name="symptoms" value="Wireless clients fail to join the SSID even though it is visible" /> Wireless clients fail to join the SSID even though it is visible</label>
+                <label><input type="checkbox" name="symptoms" value="Access list blocks finance server traffic" /> Access list blocks finance server traffic</label>
+                <label><input type="checkbox" name="symptoms" value="Web server is unreachable from outside the network due to NAT issue" /> Web server is unreachable from outside the network due to NAT issue</label>
+                <label><input type="checkbox" name="symptoms" value="Switch port is in err-disabled state repeatedly" /> Switch port is in err-disabled state repeatedly</label>
+                <label><input type="checkbox" name="symptoms" value="DHCP clients receive no IP address after room change" /> DHCP clients receive no IP address after room change</label>
+                <label><input type="checkbox" name="symptoms" value="One host cannot ping its gateway due to wrong subnet mask" /> One host cannot ping its gateway due to wrong subnet mask</label>
+                <label><input type="checkbox" name="symptoms" value="VLAN trunk is not passing traffic between switches" /> VLAN trunk is not passing traffic between switches</label>
+              </div>
+            </div>
+
+            <label class="section-label">Other symptom</label>
+            <textarea name="other_symptom" rows="3" placeholder="Type any other network problem not listed here"></textarea>
+
+            <label class="section-label">Show output</label>
+            <textarea name="show_output" rows="5" placeholder="Paste show commands output here"></textarea>
+            <button type="submit">Analyze</button>
+          </form>
+        </div>
+
+        <div class="result-box">
+          {% if diagnosis %}
+            <div class="result-header">
+              <div>
+                <p class="result-tag">AI diagnosis</p>
+                <h3>Recommended Root Cause</h3>
+              </div>
+              <span class="status-badge status-{{ diagnosis.confidence }}">{{ diagnosis.confidence|upper }}</span>
+            </div>
+
+            <div class="score-card">
+              <strong>{{ diagnosis.root_cause }}</strong>
+            </div>
+
+            <div class="meta-grid">
+              <div><span>Evidence</span><p>{{ diagnosis.evidence }}</p></div>
+              <div><span>Next command</span><p>{{ diagnosis.next_command }}</p></div>
+              <div><span>OSI Layer</span><p>{{ diagnosis.osi_layer }}</p></div>
+              <div><span>Concept tag</span><p>{{ diagnosis.concept_tag }}</p></div>
+            </div>
+
+            <div class="fix-box">
+              <h4>Fix steps</h4>
+              <ul>
+                {% for step in diagnosis.fix_steps %}
+                  <li>{{ step }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% else %}
+            <div class="result-header">
+              <div>
+                <p class="result-tag">System status</p>
+                <h3>Awaiting Diagnosis</h3>
+              </div>
+              <span class="status-badge status-idle">IDLE</span>
+            </div>
+            <p class="placeholder-text">Choose a symptom or type your own scenario, then paste the relevant show-output evidence.</p>
+          {% endif %}
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>
